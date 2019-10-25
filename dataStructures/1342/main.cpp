@@ -1,6 +1,6 @@
 /*
-    File      : main
-    Time      : 2019/10/22  10:24:48
+    File      : main.cpp
+    Time      : 2019/10/22 10:24:48
     Author    : Guo-XuanChen
 */
 #include <iostream>
