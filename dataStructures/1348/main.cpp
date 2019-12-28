@@ -5,6 +5,8 @@
 */
 #include <iostream>
 #include <vector>
+#include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -198,17 +200,19 @@ void TwoThreeTree::print()
 {
 	vector<Node *>  store;
 	store.push_back(this->root);
+	string output;
 
 	while(!store.empty())
 	{
 		vector<Node *> childBuff;
-		for(unsigned int x = 0; x < store.size() - 1; x++)
+		for(unsigned int x = 0; x < store.size(); x++)
 		{
-			for(unsigned int y = 0; y < store[x]->datas.size() - 1; y++)
+			for(unsigned int y = 0; y < store[x]->datas.size(); y++)
 			{
-				cout << store[x]->datas[y] << " ";
+				ostringstream s;
+				s << store[x]->datas[y] << " ";
+				output += s.str();
 			}
-			cout << store[x]->datas[store[x]->datas.size() - 1];
 	
 			for(unsigned int y = 0; y < store[x]->child.size(); y++)
 			{
@@ -217,26 +221,14 @@ void TwoThreeTree::print()
 					childBuff.push_back(store[x]->child[y]);
 				}
 			}
-
-			cout << " / ";
+			output += "/ ";
 		}
+		output = output.substr(0, output.size() - 3);
+		cout << output << endl;
 		
-		for(unsigned int x = 0; x < store[store.size() - 1]->datas.size() - 1; x++)
-		{
-			cout << store[store.size() - 1]->datas[x] << " ";
-		}
-		cout << store[store.size() - 1]->datas[store[store.size() - 1]->datas.size() - 1];
-
-		for(unsigned int x = 0; x < store[store.size() - 1]->child.size(); x++)
-		{
-			if(store[store.size() - 1]->child[x] != NULL)
-			{
-				childBuff.push_back(store[store.size() - 1]->child[x]);
-			}
-		}
-		
-		cout << endl;
+		output.clear();
 		store.clear();
 		store = childBuff;
 	}
+	
 }
