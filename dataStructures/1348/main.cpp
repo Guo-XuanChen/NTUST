@@ -5,7 +5,6 @@
 */
 #include <iostream>
 #include <vector>
-#include <queue>
 
 using namespace std;
 
@@ -54,14 +53,14 @@ int main(int argc, char **argv)
 
 Node::Node()
 {
-	this->child.push_back(0);
+	this->child.push_back(NULL);
 }
 
 Node::Node(unsigned int data)
 {
 	this->datas.push_back(data);
-	this->child.push_back(0);
-	this->child.push_back(0);
+	this->child.push_back(NULL);
+	this->child.push_back(NULL);
 }
 
 Node* Node::insert(unsigned int data, vector<Node*> insertChild)
@@ -106,10 +105,9 @@ Node* Node::insert(unsigned int data, vector<Node*> insertChild)
 
 	if(this->datas.size() > 2)
 	{
-		int removeIndex = this->datas.size() / 2;
-		int parentValue = this->datas[removeIndex];
-		
-		this->datas.erase(this->datas.begin() + removeIndex);
+		int parentValue = this->datas[1];	
+		this->datas.erase(this->datas.begin() + 1);
+
 		if(!this->parent)
 		{
 			this->parent = new Node();
@@ -117,14 +115,20 @@ Node* Node::insert(unsigned int data, vector<Node*> insertChild)
 
 		vector<Node*> nodes;
 		Node *node1 = new Node(), *node2 = new Node();
-		node1->datas.assign(this->datas.begin(), this->datas.begin() + removeIndex);
+
+		//left node
+		node1->datas.assign(this->datas.begin(), this->datas.begin() + 1);
 		node1->child.assign(this->child.begin(), this->child.begin() + this->child.size() / 2);
 		node1->parent = this->parent;
 		nodes.push_back(node1);
-		node2->datas.assign(this->datas.begin() + removeIndex, this->datas.end());
+
+		// right node
+		node2->datas.assign(this->datas.begin() + 1, this->datas.end());
 		node2->child.assign(this->child.begin() + this->child.size() / 2, this->child.end());
 		node2->parent = this->parent;
 		nodes.push_back(node2);
+
+		// left and right, child 
 		for(unsigned int x = 0; x < nodes.size(); x++)
 		{
 			for(unsigned int y = 0; y < nodes[x]->child.size(); y++)
@@ -148,7 +152,7 @@ Node* Node::insert(unsigned int data, vector<Node*> insertChild)
 
 Node* TwoThreeTree::search(unsigned int data)
 {
-	Node* presentNode = TwoThreeTree::root;
+	Node* presentNode = this->root;
 	while(presentNode)
 	{
 		unsigned int position = 0;
@@ -192,67 +196,47 @@ void TwoThreeTree::insert(unsigned int data)
 // Level Order
 void TwoThreeTree::print()
 {
-	queue<Node *> q;
+	vector<Node *>  store;
+	store.push_back(this->root);
 
-	q.push(this->root);					   
-    								        
-    while(1)
+	while(!store.empty())
 	{
-		queue<Node*> q2;
-		
-		while(q.size() > 1)
+		vector<Node *> childBuff;
+		for(unsigned int x = 0; x < store.size() - 1; x++)
 		{
-			Node *current = q.front(); 	q.pop();
-
-			for(unsigned int x = 0; x < current->datas.size() - 1; x++)
+			for(unsigned int y = 0; y < store[x]->datas.size() - 1; y++)
 			{
-				cout << current->datas[x] << " ";
+				cout << store[x]->datas[y] << " ";
 			}
-			cout << current->datas[current->datas.size() - 1];
-
-			for(unsigned int x = 0; x < current->child.size(); x++)
+			cout << store[x]->datas[store[x]->datas.size() - 1];
+	
+			for(unsigned int y = 0; y < store[x]->child.size(); y++)
 			{
-				if(current->child[x] != NULL)
+				if(store[x]->child[y] != NULL)
 				{
-					q2.push(current->child[x]);
-				}				
+					childBuff.push_back(store[x]->child[y]);
+				}
 			}
 
 			cout << " / ";
-			
 		}
-
-		if(!q.empty())
+		
+		for(unsigned int x = 0; x < store[store.size() - 1]->datas.size() - 1; x++)
 		{
-			Node *current = q.front(); q.pop();
-
-			for(unsigned int x = 0; x < current->datas.size() - 1; x++)
-			{
-				cout << current->datas[x] << " ";
-			}
-			cout << current->datas[current->datas.size() - 1];
-
-			for(unsigned int x = 0; x < current->child.size(); x++)
-			{
-				if(current->child[x] != NULL)
-				{
-					q2.push(current->child[x]);
-				}
-			}
-			cout << endl;
+			cout << store[store.size() - 1]->datas[x] << " ";
 		}
+		cout << store[store.size() - 1]->datas[store[store.size() - 1]->datas.size() - 1];
 
-		if(!q2.empty())
+		for(unsigned int x = 0; x < store[store.size() - 1]->child.size(); x++)
 		{
-			while(!q2.empty())
+			if(store[store.size() - 1]->child[x] != NULL)
 			{
-				q.push(q2.front());
-				q2.pop();
+				childBuff.push_back(store[store.size() - 1]->child[x]);
 			}
 		}
-		else
-		{
-			break;
-		}
-	}	
+		
+		cout << endl;
+		store.clear();
+		store = childBuff;
+	}
 }
