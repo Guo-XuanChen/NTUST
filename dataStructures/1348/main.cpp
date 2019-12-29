@@ -6,7 +6,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <sstream>
 
 using namespace std;
 
@@ -209,9 +208,7 @@ void TwoThreeTree::print()
 		{
 			for(unsigned int y = 0; y < store[x]->datas.size(); y++)
 			{
-				ostringstream s;
-				s << store[x]->datas[y] << " ";
-				output += s.str();
+				output += to_string(store[x]->datas[y]) + " ";
 			}
 	
 			for(unsigned int y = 0; y < store[x]->child.size(); y++)
@@ -226,8 +223,7 @@ void TwoThreeTree::print()
 		output = output.substr(0, output.size() - 3);
 		cout << output << endl;
 		
-		output.clear();
-		store.clear();
+		output.clear(); store.clear();
 		store = childBuff;
 	}
 	
