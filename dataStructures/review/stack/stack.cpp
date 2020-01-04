@@ -38,11 +38,16 @@ int main(int argc, char **argv)
     stack.push(2);
     stack.push(3);
     stack.print();
+    stack.push(1);
+    stack.push(2);
+    stack.push(3);
+    stack.pop();
+    stack.print();
 }
 
 bool Stack::isEmpty()
 {
-    if(top == NULL)
+    if(this->top == NULL)
     {
         return true;
     }
@@ -72,12 +77,13 @@ void Stack::pop()
     Node* del = this->top;
     if(top->down != NULL)
     {
-       this->top = this->top->down;
-       delete del;
+        this->top = this->top->down;
+        delete del; 
     }
     else
     {
-        this->top = NULL;
+        this->top = NULL; 
+        delete del; 
     }
 }
     
@@ -93,6 +99,12 @@ unsigned int Stack::getTop()
 
 void Stack::print()
 {
+    if(this->isEmpty())
+    {
+        cout << "The stack is empty" << endl;
+        return;
+    }
+
     while(!this->isEmpty())
     {
         if(this->top->down == NULL)
