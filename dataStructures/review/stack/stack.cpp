@@ -36,9 +36,6 @@ int main(int argc, char **argv)
     stack.push(2);
     stack.push(3);
     stack.print();
-    stack.push(1);
-    stack.push(2);
-    stack.push(3);
     stack.pop();
     stack.print();
 }
@@ -102,16 +99,18 @@ void Stack::print()
         return;
     }
 
-    while(!this->isEmpty())
+    Node* current = this->top;
+    while(current != NULL)
     {
-        if(this->top->down == NULL)
+        if(current->down == NULL)
         {
-           cout << this->getTop() << endl;
+            cout << current->number << endl;
         }
         else
         {
-           cout << this->getTop() << " ";
+             cout << current->number << " ";
         }
-        this->pop();
+
+        current = current->down;
     }
 }
