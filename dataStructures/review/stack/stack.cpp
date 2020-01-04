@@ -70,7 +70,7 @@ void Stack::pop()
     }
 
     Node* del = this->top;
-    if(top->down != NULL)
+    if(del->down != NULL)
     {
         this->top = this->top->down;
     }
