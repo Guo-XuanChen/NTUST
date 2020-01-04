@@ -69,16 +69,9 @@ void Stack::pop()
         return;
     }
 
-    Node* del = this->top;
-    if(del->down != NULL)
-    {
-        this->top = this->top->down;
-    }
-    else
-    {
-        this->top = NULL; 
-    }
-    delete del; 
+    Node* delNode = this->top;
+    this->top = delNode->down;
+    delete delNode; 
 }
     
 unsigned int Stack::getTop()
