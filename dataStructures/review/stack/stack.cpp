@@ -4,8 +4,6 @@
     Author    : Guo-XuanChen
 */
 #include <iostream>
-#include <string>
-#include <vector>
 
 using namespace std;
 
@@ -78,13 +76,12 @@ void Stack::pop()
     if(top->down != NULL)
     {
         this->top = this->top->down;
-        delete del; 
     }
     else
     {
         this->top = NULL; 
-        delete del; 
     }
+    delete del; 
 }
     
 unsigned int Stack::getTop()
