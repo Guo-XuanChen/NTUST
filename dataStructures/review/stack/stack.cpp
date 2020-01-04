@@ -12,7 +12,7 @@ class Stack;
 class Node
 {
     unsigned int number;             // stored value will be greater than 0.
-    Node* down;                      // pointer to down.
+    Node* down = NULL;               // pointer to down.
     friend class Stack;
     public:
     Node(unsigned int number):number(number){};
@@ -20,7 +20,7 @@ class Node
 
 class Stack
 {
-    Node *top;
+    Node *top = NULL;
     public:
     bool isEmpty();
     void print();
